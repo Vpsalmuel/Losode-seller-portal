@@ -1545,11 +1545,7 @@ a.od-item__name:hover { text-decoration: underline; }
 .login__masthead { font-weight: 500; font-size: 24px; }
 .login__caption { display: flex; flex-direction: column; gap: 20px; }
 .login__caption h2 { font-weight: 400; font-size: 44px; line-height: 1.12; animation: login-rise 700ms ease both; }
-.login__caption-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
-.login__caption-row p { font-size: 14px; line-height: 18px; color: #e5e1da; animation: login-rise 700ms 120ms ease both; }
-.login__arrows { display: flex; flex: none; gap: 12px; }
-.login__arrows button { display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 0; border-radius: 50%; background: #fff; transition: transform 150ms; }
-.login__arrows button:hover { transform: scale(1.06); }
+.login__caption-text { font-size: 14px; line-height: 18px; color: #e5e1da; animation: login-rise 700ms 120ms ease both; }
 
 .login__collections { display: flex; flex: none; flex-direction: column; gap: 18px; padding: 26px 48px 28px; }
 .login__collections > p { font-size: 12px; color: #e5e1da; }
@@ -1571,7 +1567,7 @@ a.od-item__name:hover { text-decoration: underline; }
 @media (prefers-reduced-motion: reduce) {
   .login__slide { transition: opacity 300ms; transform: none; }
   .login__slide.is-active { transform: none; }
-  .login__caption h2, .login__caption-row p { animation: none; }
+  .login__caption h2, .login__caption-text { animation: none; }
 }
 
 @media (max-width: 1180px) {

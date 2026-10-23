@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { iconChevronLeftLg, iconChevronRightLg, iconEye, iconEyeOff, logoDark } from '../assets';
+import { iconEye, iconEyeOff, logoDark } from '../assets';
 
 const SLIDE_MS = 6000;
 
@@ -164,21 +164,11 @@ function Carousel() {
             <br />
             {slide.heading[1]}
           </h2>
-          <div className="login__caption-row">
-            <p key={`p-${index}`}>
-              {slide.text[0]}
-              <br />
-              {slide.text[1]}
-            </p>
-            <div className="login__arrows">
-              <button type="button" onClick={() => go(index - 1)} aria-label="Previous slide">
-                <img src={iconChevronLeftLg} width={24} height={24} alt="" />
-              </button>
-              <button type="button" onClick={() => go(index + 1)} aria-label="Next slide">
-                <img src={iconChevronRightLg} width={24} height={24} alt="" />
-              </button>
-            </div>
-          </div>
+          <p key={`p-${index}`} className="login__caption-text">
+            {slide.text[0]}
+            <br />
+            {slide.text[1]}
+          </p>
         </div>
       </div>
 
