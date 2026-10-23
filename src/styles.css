@@ -1,23 +1,23 @@
 /*
- * Domaine Sans Text (licensed from Klim) is the only typeface on the portal.
- * Drop the licensed .woff2 files into public/fonts/ and they are picked up here;
- * until then an installed copy is used, then DM Sans as the fallback.
+ * Domaine Sans Text (Klim web licence) is the only typeface on the portal.
+ * The faces are self-hosted from public/fonts/. Domaine has no ₦ glyph, so the
+ * naira sign (and anything else it lacks) falls back to DM Sans.
  */
 @font-face {
   font-family: 'Domaine Sans Text';
-  src: local('Domaine Sans Text Regular'), local('DomaineSansText-Regular'), url('/fonts/DomaineSansText-Regular.woff2') format('woff2');
+  src: url('/fonts/DomaineSansText-Regular.woff2') format('woff2');
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: 'Domaine Sans Text';
-  src: local('Domaine Sans Text Medium'), local('DomaineSansText-Medium'), url('/fonts/DomaineSansText-Medium.woff2') format('woff2');
+  src: url('/fonts/DomaineSansText-Medium.woff2') format('woff2');
   font-weight: 500;
   font-display: swap;
 }
 @font-face {
   font-family: 'Domaine Sans Text';
-  src: local('Domaine Sans Text Bold'), local('DomaineSansText-Bold'), url('/fonts/DomaineSansText-Bold.woff2') format('woff2');
+  src: url('/fonts/DomaineSansText-Bold.woff2') format('woff2');
   font-weight: 700;
   font-display: swap;
 }

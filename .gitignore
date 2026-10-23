@@ -6,3 +6,6 @@ dist
 .claude
 .DS_Store
 Thumbs.db
+
+# Desktop-licensed Klim fonts; never publish these. Web fonts go in public/fonts/.
+/fonts/
