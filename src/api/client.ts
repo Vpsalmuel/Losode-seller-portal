@@ -6,10 +6,39 @@ import * as db from './mockData';
 import type { Listing, ListingInput, Order, OrderPatch, OrderStatus, PhotoshootRequest, PhotoshootSession, Store } from './types';
 
 const LATENCY_MS = 250;
+
+export interface Session {
+  email: string;
+  signedInAt: string;
+}
+
+/** Thrown for sign-in failures the seller can fix (wrong details, bad email). */
+export class AuthError extends Error {}
 const delay = <T,>(value: T): Promise<T> =>
   new Promise((resolve) => setTimeout(() => resolve(structuredClone(value)), LATENCY_MS));
 
 export const api = {
+  /**
+   * Mock sign-in: accepts any well-formed email with a password of 8+ characters.
+   * Replace with the Losóde auth endpoint; keep throwing AuthError for bad credentials.
+   */
+  async signIn(email: string, password: string): Promise<Session> {
+    const clean = email.trim().toLowerCase();
+    await delay(null);
+    if (!/^[^s@]+@[^s@]+.[^s@]+$/.test(clean) || password.length < 8) throw new AuthError('Incorrect email or password.');
+    return { email: clean, signedInAt: new Date().toISOString() };
+  },
+
+  /** Mock social sign-in; the real flow redirects to the provider and back. */
+  async signInWith(provider: 'google' | 'apple'): Promise<Session> {
+    await delay(null);
+    return { email: `${db.store.email} (${provider})`, signedInAt: new Date().toISOString() };
+  },
+
+  async requestPasswordReset(email: string): Promise<void> {
+    await delay(email);
+  },
+
   getStore: () => delay(db.store),
   getStats: () => delay(db.stats),
   getOrders: () => delay(db.orders),

@@ -15,6 +15,7 @@ import {
   logoWhite,
 } from '../assets';
 import { storeUrl } from '../lib/format';
+import { useAuth } from '../state/Auth';
 import { useSellerData } from '../state/SellerData';
 
 const navClass = ({ isActive }: { isActive: boolean }) => `nav__item${isActive ? ' is-active' : ''}`;
@@ -26,6 +27,7 @@ function NavIcon({ src }: { src: string }) {
 
 function ProfileMenu() {
   const { store } = useSellerData();
+  const { session, signOut } = useAuth();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const location = useLocation();
@@ -56,6 +58,7 @@ function ProfileMenu() {
       {open && (
         <div className="profile-menu__list" role="menu">
           <p className="profile-menu__role">Seller Account</p>
+          {session && <p className="profile-menu__email">{session.email}</p>}
           <Link to="/settings" role="menuitem">
             Store settings
           </Link>
@@ -67,6 +70,9 @@ function ProfileMenu() {
               View storefront
             </a>
           )}
+          <button type="button" role="menuitem" onClick={signOut}>
+            Sign out
+          </button>
         </div>
       )}
     </div>
