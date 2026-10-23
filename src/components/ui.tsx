@@ -40,7 +40,7 @@ export function SectionHeader({
 }: {
   title: string;
   count?: ReactNode;
-  link?: { to: string; label: string; ui?: boolean };
+  link?: { to: string; label: string };
   large?: boolean;
 }) {
   return (
@@ -50,7 +50,7 @@ export function SectionHeader({
         {count}
       </h2>
       {link && (
-        <Link to={link.to} className={`section__link${link.ui ? ' section__link--ui' : ''}`}>
+        <Link to={link.to} className="section__link">
           {link.label} →
         </Link>
       )}
