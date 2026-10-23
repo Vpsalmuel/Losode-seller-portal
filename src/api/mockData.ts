@@ -36,6 +36,11 @@ export const store: Store = {
   accountName: 'N.I.C.K Apparels Inc.',
 };
 
+/**
+ * Demo login for previews and testing (no real account behind it). Also listed in the README.
+ */
+export const demoAccount = { email: 'nick@nickapparels.com', password: 'Losode2026!' };
+
 const img = (slug: string) => `/products/${slug}.jpg`;
 
 // Newest first, as the listings page shows them.

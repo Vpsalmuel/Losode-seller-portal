@@ -12,12 +12,14 @@ import { PhotoshootGallery } from './pages/PhotoshootGallery';
 import { Photoshoots } from './pages/Photoshoots';
 import { PhotoshootSessions } from './pages/PhotoshootSessions';
 import { Settings } from './pages/Settings';
+import { Signup } from './pages/Signup';
 import { RequireAuth } from './state/Auth';
 
 export function App() {
   return (
     <Routes>
       <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
       <Route
         element={
           <RequireAuth>

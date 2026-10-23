@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { api, type Session } from '../api/client';
+import { api, type Session, type SignUpRequest } from '../api/client';
 
 const KEY = 'losode.session';
 
@@ -37,6 +37,7 @@ interface AuthValue {
   session: Session | null;
   signIn: (email: string, password: string, remember: boolean) => Promise<void>;
   signInWith: (provider: 'google' | 'apple') => Promise<void>;
+  signUp: (request: SignUpRequest) => Promise<void>;
   signOut: () => void;
 }
 
@@ -57,12 +58,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setSession(s);
   }, []);
 
+  const signUp = useCallback(async (request: SignUpRequest) => {
+    const s = await api.signUp(request);
+    writeSession(s, true);
+    setSession(s);
+  }, []);
+
   const signOut = useCallback(() => {
     writeSession(null);
     setSession(null);
   }, []);
 
-  const value = useMemo(() => ({ session, signIn, signInWith, signOut }), [session, signIn, signInWith, signOut]);
+  const value = useMemo(() => ({ session, signIn, signInWith, signUp, signOut }), [session, signIn, signInWith, signUp, signOut]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

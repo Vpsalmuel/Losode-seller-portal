@@ -12,27 +12,69 @@ export interface Session {
   signedInAt: string;
 }
 
+export interface SignUpRequest {
+  fullName: string;
+  storeName: string;
+  email: string;
+  phone: string;
+  location: string;
+  password: string;
+}
+
 /** Thrown for sign-in failures the seller can fix (wrong details, bad email). */
 export class AuthError extends Error {}
 const delay = <T,>(value: T): Promise<T> =>
   new Promise((resolve) => setTimeout(() => resolve(structuredClone(value)), LATENCY_MS));
 
+const ACCOUNTS_KEY = 'losode.accounts';
+
+/**
+ * Mock accounts: the seeded demo account plus any created on the sign-up page,
+ * kept in this browser so they survive a reload. The real API stores these server-side.
+ */
+function accounts(): { email: string; password: string }[] {
+  let saved: { email: string; password: string }[] = [];
+  try {
+    saved = JSON.parse(localStorage.getItem(ACCOUNTS_KEY) ?? '[]');
+  } catch {
+    // Blocked or corrupt storage: only the demo account is available.
+  }
+  return [db.demoAccount, ...saved];
+}
+
+function saveAccount(account: { email: string; password: string }) {
+  try {
+    const saved = accounts().slice(1);
+    localStorage.setItem(ACCOUNTS_KEY, JSON.stringify([...saved, account]));
+  } catch {
+    // The account still works until the page is reloaded.
+  }
+}
+
+const session = (email: string): Session => ({ email, signedInAt: new Date().toISOString() });
+
 export const api = {
-  /**
-   * Mock sign-in: accepts any well-formed email with a password of 8+ characters.
-   * Replace with the Losóde auth endpoint; keep throwing AuthError for bad credentials.
-   */
+  /** Mock sign-in against the demo account and accounts created here. Replace with the Losóde auth endpoint. */
   async signIn(email: string, password: string): Promise<Session> {
     const clean = email.trim().toLowerCase();
     await delay(null);
-    if (!/^[^s@]+@[^s@]+.[^s@]+$/.test(clean) || password.length < 8) throw new AuthError('Incorrect email or password.');
-    return { email: clean, signedInAt: new Date().toISOString() };
+    const match = accounts().find((a) => a.email === clean && a.password === password);
+    if (!match) throw new AuthError('Incorrect email or password.');
+    return session(clean);
   },
 
-  /** Mock social sign-in; the real flow redirects to the provider and back. */
-  async signInWith(provider: 'google' | 'apple'): Promise<Session> {
+  /** Mock social sign-in into the demo account; the real flow redirects to the provider and back. */
+  async signInWith(_provider: 'google' | 'apple'): Promise<Session> {
     await delay(null);
-    return { email: `${db.store.email} (${provider})`, signedInAt: new Date().toISOString() };
+    return session(db.demoAccount.email);
+  },
+
+  async signUp(request: SignUpRequest): Promise<Session> {
+    const email = request.email.trim().toLowerCase();
+    await delay(null);
+    if (accounts().some((a) => a.email === email)) throw new AuthError('An account with this email already exists. Sign in instead.');
+    saveAccount({ email, password: request.password });
+    return session(email);
   },
 
   async requestPasswordReset(email: string): Promise<void> {

@@ -9,10 +9,21 @@ npm run dev      # http://localhost:5173
 npm run build
 ```
 
+## Demo login
+
+Sign-in is mocked until the Losóde auth API is connected. Use the demo account
+(defined in `src/api/mockData.ts`), or create an account on `/signup`, which is
+kept in that browser only.
+
+| Email | Password |
+| --- | --- |
+| `nick@nickapparels.com` | `Losode2026!` |
+
 ## Pages
 
 | Route | Page |
 | --- | --- |
+| `/login`, `/signup` | Sign in and create an account, with the editorial carousel |
 | `/` | Dashboard: KPIs, performance summary, new orders, listings, promos |
 | `/orders` | Manage Orders: status counts and paged order cards |
 | `/orders/:id` | Order details: items, fulfillment, timeline, customer, payment, notes; approve / ship / cancel |
